@@ -4,7 +4,7 @@
 
 int main(){
 
-    printf("Lets play with C now")
+    printf("Lets play with C now");
 
     return 0;
 }
