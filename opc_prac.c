@@ -14,7 +14,7 @@ int main(){
     printf("Lets play with structure now");
     cmd_t var1;
     var1.command="gen_freq";
-    var1.freq = 10000;
+    var1.freq = 10000; 
     var1.power = 5;
 
     printf("parsed command is %s",var1.command);
