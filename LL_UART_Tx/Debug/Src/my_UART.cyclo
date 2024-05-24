@@ -1,0 +1,14 @@
+C:/Users/ronakkumar_sharma/Optical_Project/Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_ll_bus.h:563:22:LL_AHB2_GRP1_EnableClock	1
+C:/Users/ronakkumar_sharma/Optical_Project/Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_ll_bus.h:1673:22:LL_APB2_GRP1_EnableClock	1
+C:/Users/ronakkumar_sharma/Optical_Project/Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_ll_usart.h:693:22:LL_USART_Enable	1
+C:/Users/ronakkumar_sharma/Optical_Project/Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_ll_usart.h:707:22:LL_USART_Disable	1
+C:/Users/ronakkumar_sharma/Optical_Project/Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_ll_usart.h:978:22:LL_USART_EnableDirectionTx	2
+C:/Users/ronakkumar_sharma/Optical_Project/Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_ll_usart.h:1007:22:LL_USART_SetTransferDirection	2
+C:/Users/ronakkumar_sharma/Optical_Project/Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_ll_usart.h:1452:22:LL_USART_ConfigCharacter	1
+C:/Users/ronakkumar_sharma/Optical_Project/Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_ll_usart.h:1988:22:LL_USART_SetBaudRate	2
+C:/Users/ronakkumar_sharma/Optical_Project/Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_ll_usart.h:3187:26:LL_USART_IsActiveFlag_TXE	2
+C:/Users/ronakkumar_sharma/Optical_Project/Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_ll_usart.h:4566:22:LL_USART_TransmitData8	1
+C:/Users/ronakkumar_sharma/Optical_Project/Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_ll_gpio.h:285:22:LL_GPIO_SetPinMode	3
+C:/Users/ronakkumar_sharma/Optical_Project/Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_ll_gpio.h:568:22:LL_GPIO_SetAFPin_0_7	3
+../Src/my_UART.c:11:6:usart1_init	1
+../Src/my_UART.c:39:6:usart1_write	2

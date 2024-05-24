@@ -1,0 +1,5 @@
+"./Src/main.o"
+"./Src/my_UART.o"
+"./Src/syscalls.o"
+"./Src/sysmem.o"
+"./Startup/startup_stm32l496zgtxp.o"
