@@ -1,0 +1,50 @@
+!SESSION 2024-05-27 22:43:28.630 -----------------------------------------------
+eclipse.buildId=Version 1.15.1
+java.version=17.0.8.1
+java.vendor=Eclipse Adoptium
+BootLoader constants: OS=win32, ARCH=x86_64, WS=win32, NL=en_US
+Framework arguments:  D:\Edu\ST_WorkSpace\Ronak_Repo\LL_USART_TX_RX\.project
+Command-line arguments:  -os win32 -ws win32 -arch x86_64 -data D:\Edu\ST_WorkSpace\Ronak_Repo D:\Edu\ST_WorkSpace\Ronak_Repo\LL_USART_TX_RX\.project
+
+!ENTRY com.st.stm32cube.ide.mcu.informationcenter 4 4 2024-05-27 22:43:34.200
+!MESSAGE CubeMX plugin appears to be active, Log4j initialization might be too late.
+
+!ENTRY com.st.stm32cube.ide.mcu.informationcenter 1 1 2024-05-27 22:43:34.216
+!MESSAGE Log4j2 initialized with config file D:\Edu\ST_WorkSpace\Ronak_Repo\.metadata\.log4j2.xml
+
+!ENTRY com.st.stm32cube.ide.mcu.ide 1 1 2024-05-27 22:43:36.751
+!MESSAGE Started RMI Server, listening on port 41337
+
+!ENTRY org.eclipse.core.resources 4 2 2024-05-27 22:43:44.621
+!MESSAGE Problems occurred when invoking code from plug-in: "org.eclipse.core.resources".
+!STACK 0
+java.lang.NullPointerException: Cannot invoke "org.eclipse.cdt.managedbuilder.core.IManagedProject.getConfigurations()" because the return value of "org.eclipse.cdt.managedbuilder.core.IManagedBuildInfo.getManagedProject()" is null
+	at com.st.stm32cube.ide.mcu.buildanalyzer.BuildAnalytics.getBinaryFiles(BuildAnalytics.java:509)
+	at com.st.stm32cube.ide.mcu.buildanalyzer.BuildAnalytics.looksForBinaries(BuildAnalytics.java:445)
+	at com.st.stm32cube.ide.mcu.buildanalyzer.BuildAnalytics.access$4(BuildAnalytics.java:429)
+	at com.st.stm32cube.ide.mcu.buildanalyzer.BuildAnalytics$2.resourceChanged(BuildAnalytics.java:175)
+	at org.eclipse.core.internal.events.NotificationManager$1.run(NotificationManager.java:321)
+	at org.eclipse.core.runtime.SafeRunner.run(SafeRunner.java:47)
+	at org.eclipse.core.internal.events.NotificationManager.notify(NotificationManager.java:311)
+	at org.eclipse.core.internal.events.NotificationManager.broadcastChanges(NotificationManager.java:174)
+	at org.eclipse.core.internal.resources.Workspace.broadcastBuildEvent(Workspace.java:444)
+	at org.eclipse.core.internal.events.AutoBuildJob$AutoBuildOffJob.run(AutoBuildJob.java:377)
+	at org.eclipse.core.internal.jobs.Worker.run(Worker.java:63)
+
+!ENTRY org.eclipse.cdt.core 1 0 2024-05-27 22:43:45.224
+!MESSAGE Indexed 'LL_driver_USART' (25 sources, 144 headers) in 4.74 sec: 12,721 declarations; 46,657 references; 7 unresolved inclusions; 142 syntax errors; 1,386 unresolved names (2.3%)
+
+!ENTRY org.eclipse.cdt.core 1 0 2024-05-27 22:43:47.108
+!MESSAGE Indexed 'LL_USART_TX_RX' (13 sources, 97 headers) in 1.87 sec: 9,390 declarations; 30,356 references; 3 unresolved inclusions; 46 syntax errors; 171 unresolved names (0.43%)
+
+!ENTRY org.eclipse.cdt.core 1 0 2024-05-27 22:43:51.269
+!MESSAGE Indexed 'I2C_SPI_UART' (25 sources, 122 headers) in 2.07 sec: 12,937 declarations; 63,723 references; 3 unresolved inclusions; 46 syntax errors; 171 unresolved names (0.22%)
+
+!ENTRY org.eclipse.cdt.core 1 0 2024-05-27 22:43:55.414
+!MESSAGE Indexed 'mydriver' (13 sources, 97 headers) in 1.51 sec: 9,951 declarations; 34,821 references; 3 unresolved inclusions; 46 syntax errors; 171 unresolved names (0.38%)
+
+!ENTRY org.eclipse.cdt.core 1 0 2024-05-27 22:43:57.391
+!MESSAGE Indexed 'test' (25 sources, 119 headers) in 1.97 sec: 12,738 declarations; 63,651 references; 3 unresolved inclusions; 46 syntax errors; 171 unresolved names (0.22%)
+
+!ENTRY org.eclipse.cdt.core 1 0 2024-05-27 22:44:01.493
+!MESSAGE Indexed 'UART_DMA' (35 sources, 133 headers) in 2.79 sec: 14,998 declarations; 75,965 references; 3 unresolved inclusions; 46 syntax errors; 171 unresolved names (0.19%)
