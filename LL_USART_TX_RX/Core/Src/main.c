@@ -22,6 +22,9 @@
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
 #include "my_uart.h"
+#include"my_timer.h"
+#include<string.h>
+#include<stdio.h>
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -52,6 +55,7 @@ usart_handle_t *dev = &usart_dev;
 void SystemClock_Config(void);
 static void MX_GPIO_Init(void);
 static void MX_USART1_UART_Init(void);
+static void MX_TIM16_Init(void);
 /* USER CODE BEGIN PFP */
 
 /* USER CODE END PFP */
@@ -69,7 +73,7 @@ int main(void)
 {
 
   /* USER CODE BEGIN 1 */
-
+	//uint8_t buf[50];
   /* USER CODE END 1 */
 
   /* MCU Configuration--------------------------------------------------------*/
@@ -82,7 +86,16 @@ int main(void)
   NVIC_SetPriorityGrouping(NVIC_PRIORITYGROUP_4);
 
   /* USER CODE BEGIN Init */
+  MY_TIMER_Init();
+  /* Enable clock for GPIOC first*/
+  	LL_AHB2_GRP1_EnableClock (LL_AHB2_GRP1_PERIPH_GPIOC);
 
+
+  	/* Now declare pin PC7 as output pin*/
+  	LL_GPIO_SetPinMode (GPIOC,LL_GPIO_PIN_7 , LL_GPIO_MODE_OUTPUT);
+
+  	/* Set PC13 as input pin */
+  	LL_GPIO_SetPinMode (GPIOC,LL_GPIO_PIN_13 , LL_GPIO_MODE_INPUT);
   /* USER CODE END Init */
 
   /* Configure the system clock */
@@ -95,7 +108,11 @@ int main(void)
   /* Initialize all configured peripherals */
   MX_GPIO_Init();
   MX_USART1_UART_Init();
+  MX_TIM16_Init();
   /* USER CODE BEGIN 2 */
+//  strcpy((char*)buf,"Application is Running\r\n");
+  char buf[50] = "Application is running\r\n";
+  uart_write(dev->handle,buf);
 
   /* USER CODE END 2 */
 
@@ -106,9 +123,13 @@ int main(void)
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
-	  uart_write(dev->handle,'Z');
+	  if(LL_GPIO_IsInputPinSet(GPIOC, LL_GPIO_PIN_13)){
+		  MY_Delay(10000);
+		  strcpy((char*)buf,"In the loop\r\n");
+		   uart_write(dev->handle,buf);
+		   MY_Delay(1000);
+	  }
 
-	  for(int itr = 0;itr < 900000;itr++){};
   }
   /* USER CODE END 3 */
 }
@@ -158,6 +179,39 @@ void SystemClock_Config(void)
   LL_Init1msTick(64000000);
 
   LL_SetSystemCoreClock(64000000);
+}
+
+/**
+  * @brief TIM16 Initialization Function
+  * @param None
+  * @retval None
+  */
+static void MX_TIM16_Init(void)
+{
+
+  /* USER CODE BEGIN TIM16_Init 0 */
+
+  /* USER CODE END TIM16_Init 0 */
+
+  LL_TIM_InitTypeDef TIM_InitStruct = {0};
+
+  /* Peripheral clock enable */
+  LL_APB2_GRP1_EnableClock(LL_APB2_GRP1_PERIPH_TIM16);
+
+  /* USER CODE BEGIN TIM16_Init 1 */
+
+  /* USER CODE END TIM16_Init 1 */
+  TIM_InitStruct.Prescaler = 0;
+  TIM_InitStruct.CounterMode = LL_TIM_COUNTERMODE_UP;
+  TIM_InitStruct.Autoreload = 65535;
+  TIM_InitStruct.ClockDivision = LL_TIM_CLOCKDIVISION_DIV1;
+  TIM_InitStruct.RepetitionCounter = 0;
+  LL_TIM_Init(TIM16, &TIM_InitStruct);
+  LL_TIM_DisableARRPreload(TIM16);
+  /* USER CODE BEGIN TIM16_Init 2 */
+
+  /* USER CODE END TIM16_Init 2 */
+
 }
 
 /**

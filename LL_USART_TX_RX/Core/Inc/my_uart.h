@@ -29,6 +29,6 @@ typedef struct{
 extern usart_handle_t usart_dev;
 
 
-void uart_write(USART_TypeDef *,uint8_t ch);
+void uart_write(USART_TypeDef *huart,const char *pdata);
 
 #endif /* INC_MY_UART_H_ */

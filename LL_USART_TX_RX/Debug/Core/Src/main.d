@@ -16,9 +16,10 @@ Core/Src/main.o: ../Core/Src/main.c ../Core/Inc/main.h \
  ../Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_ll_utils.h \
  ../Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_ll_pwr.h \
  ../Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_ll_dma.h \
+ ../Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_ll_tim.h \
  ../Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_ll_usart.h \
  ../Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_ll_gpio.h \
- ../Core/Inc/my_uart.h ../Core/Inc/main.h
+ ../Core/Inc/my_uart.h ../Core/Inc/main.h ../Core/Inc/my_timer.h
 ../Core/Inc/main.h:
 ../Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_ll_crs.h:
 ../Drivers/CMSIS/Device/ST/STM32L4xx/Include/stm32l4xx.h:
@@ -37,7 +38,9 @@ Core/Src/main.o: ../Core/Src/main.c ../Core/Inc/main.h \
 ../Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_ll_utils.h:
 ../Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_ll_pwr.h:
 ../Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_ll_dma.h:
+../Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_ll_tim.h:
 ../Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_ll_usart.h:
 ../Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_ll_gpio.h:
 ../Core/Inc/my_uart.h:
 ../Core/Inc/main.h:
+../Core/Inc/my_timer.h:

@@ -60,8 +60,8 @@ all: main-build
 main-build: LL_USART_TX_RX.elf secondary-outputs
 
 # Tool invocations
-LL_USART_TX_RX.elf LL_USART_TX_RX.map: $(OBJS) $(USER_OBJS) D:\Edu\ST_WorkSpace\LL_USART_TX_RX\STM32L496ZGTXP_FLASH.ld makefile objects.list $(OPTIONAL_TOOL_DEPS)
-	arm-none-eabi-gcc -o "LL_USART_TX_RX.elf" @"objects.list" $(USER_OBJS) $(LIBS) -mcpu=cortex-m4 -T"D:\Edu\ST_WorkSpace\LL_USART_TX_RX\STM32L496ZGTXP_FLASH.ld" --specs=nosys.specs -Wl,-Map="LL_USART_TX_RX.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
+LL_USART_TX_RX.elf LL_USART_TX_RX.map: $(OBJS) $(USER_OBJS) D:\Edu\ST_WorkSpace\Ronak_Repo\LL_USART_TX_RX\STM32L496ZGTXP_FLASH.ld makefile objects.list $(OPTIONAL_TOOL_DEPS)
+	arm-none-eabi-gcc -o "LL_USART_TX_RX.elf" @"objects.list" $(USER_OBJS) $(LIBS) -mcpu=cortex-m4 -T"D:\Edu\ST_WorkSpace\Ronak_Repo\LL_USART_TX_RX\STM32L496ZGTXP_FLASH.ld" --specs=nosys.specs -Wl,-Map="LL_USART_TX_RX.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
 	@echo 'Finished building target: $@'
 	@echo ' '
 

@@ -1,3 +1,4 @@
+../Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_ll_usart.h:3159:26:LL_USART_IsActiveFlag_TC	16	static
 ../Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_ll_usart.h:3187:26:LL_USART_IsActiveFlag_TXE	16	static
 ../Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_ll_usart.h:4566:22:LL_USART_TransmitData8	16	static
-../Core/Src/my_UART.c:10:6:uart_write	16	static
+../Core/Src/my_UART.c:30:6:uart_write	16	static
