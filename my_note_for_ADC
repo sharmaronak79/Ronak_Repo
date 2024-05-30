@@ -1,0 +1,271 @@
+Creating a generic user driver for USART and ADC on the STM32L496 microcontroller involves setting up the USART for communication and configuring the ADC to scan channels periodically using a timer. Below are the steps and code for implementing this.
+
+### USART Driver
+
+#### `my_uart.h`
+
+```c
+#ifndef MY_UART_H
+#define MY_UART_H
+
+#include "stm32l4xx_ll_usart.h"
+#include "stm32l4xx_ll_gpio.h"
+#include "stm32l4xx_ll_bus.h"
+#include "stm32l4xx_ll_rcc.h"
+
+// Function prototypes
+void MY_UART_Init(void);
+void MY_UART_Transmit(const char *data);
+
+#endif // MY_UART_H
+```
+
+#### `my_uart.c`
+
+```c
+#include "my_uart.h"
+
+void MY_UART_Init(void) {
+    // Enable the peripheral clocks
+    LL_APB2_GRP1_EnableClock(LL_APB2_GRP1_PERIPH_USART1);
+    LL_AHB2_GRP1_EnableClock(LL_AHB2_GRP1_PERIPH_GPIOA);
+
+    // Configure GPIO for USART1 TX (PA9) and RX (PA10)
+    LL_GPIO_SetPinMode(GPIOA, LL_GPIO_PIN_9, LL_GPIO_MODE_ALTERNATE);
+    LL_GPIO_SetAFPin_8_15(GPIOA, LL_GPIO_PIN_9, LL_GPIO_AF_7);
+    LL_GPIO_SetPinSpeed(GPIOA, LL_GPIO_PIN_9, LL_GPIO_SPEED_FREQ_HIGH);
+    LL_GPIO_SetPinOutputType(GPIOA, LL_GPIO_PIN_9, LL_GPIO_OUTPUT_PUSHPULL);
+    LL_GPIO_SetPinPull(GPIOA, LL_GPIO_PIN_9, LL_GPIO_PULL_UP);
+
+    LL_GPIO_SetPinMode(GPIOA, LL_GPIO_PIN_10, LL_GPIO_MODE_ALTERNATE);
+    LL_GPIO_SetAFPin_8_15(GPIOA, LL_GPIO_PIN_10, LL_GPIO_AF_7);
+    LL_GPIO_SetPinSpeed(GPIOA, LL_GPIO_PIN_10, LL_GPIO_SPEED_FREQ_HIGH);
+    LL_GPIO_SetPinOutputType(GPIOA, LL_GPIO_PIN_10, LL_GPIO_OUTPUT_PUSHPULL);
+    LL_GPIO_SetPinPull(GPIOA, LL_GPIO_PIN_10, LL_GPIO_PULL_UP);
+
+    // Configure USART1
+    LL_USART_SetTransferDirection(USART1, LL_USART_DIRECTION_TX_RX);
+    LL_USART_SetParity(USART1, LL_USART_PARITY_NONE);
+    LL_USART_SetDataWidth(USART1, LL_USART_DATAWIDTH_8B);
+    LL_USART_SetStopBitsLength(USART1, LL_USART_STOPBITS_1);
+    LL_USART_SetBaudRate(USART1, SystemCoreClock / 2, LL_USART_OVERSAMPLING_16, 115200);
+
+    // Enable USART1
+    LL_USART_Enable(USART1);
+
+    // Enable USART1 TX/RX
+    LL_USART_EnableDirectionTx(USART1);
+    LL_USART_EnableDirectionRx(USART1);
+}
+
+void MY_UART_Transmit(const char *data) {
+    while (*data) {
+        // Wait until the data register is empty
+        while (!LL_USART_IsActiveFlag_TXE(USART1));
+
+        // Transmit the character
+        LL_USART_TransmitData8(USART1, *data++);
+
+        // Wait until the transmission is complete
+        while (!LL_USART_IsActiveFlag_TC(USART1));
+    }
+}
+```
+
+### ADC Driver
+
+#### `my_adc.h`
+
+```c
+#ifndef MY_ADC_H
+#define MY_ADC_H
+
+#include "stm32l4xx_ll_adc.h"
+#include "stm32l4xx_ll_bus.h"
+#include "stm32l4xx_ll_rcc.h"
+#include "stm32l4xx_ll_tim.h"
+
+// Function prototypes
+void MY_ADC_Init(void);
+uint32_t MY_ADC_Read(void);
+void MY_ADC_StartConversion(void);
+uint32_t MY_ADC_GetConversionValue(void);
+
+#endif // MY_ADC_H
+```
+
+#### `my_adc.c`
+
+```c
+#include "my_adc.h"
+
+void MY_ADC_Init(void) {
+    // Enable the clock for ADC1
+    LL_AHB2_GRP1_EnableClock(LL_AHB2_GRP1_PERIPH_ADC);
+
+    // Configure ADC1
+    LL_ADC_SetResolution(ADC1, LL_ADC_RESOLUTION_12B);
+    LL_ADC_SetDataAlignment(ADC1, LL_ADC_DATA_ALIGN_RIGHT);
+    LL_ADC_SetLowPowerMode(ADC1, LL_ADC_LP_MODE_NONE);
+    LL_ADC_SetSequencersScanMode(ADC1, LL_ADC_SEQ_SCAN_ENABLE);
+
+    // Set ADC sampling time
+    LL_ADC_SetChannelSamplingTime(ADC1, LL_ADC_CHANNEL_1, LL_ADC_SAMPLINGTIME_6CYCLES_5);
+
+    // Configure the regular group sequencer length
+    LL_ADC_REG_SetSequencerLength(ADC1, LL_ADC_REG_SEQ_SCAN_DISABLE);
+    LL_ADC_REG_SetSequencerRanks(ADC1, LL_ADC_REG_RANK_1, LL_ADC_CHANNEL_1);
+
+    // Enable ADC1
+    LL_ADC_Enable(ADC1);
+
+    // Wait for ADC to stabilize
+    while (!LL_ADC_IsActiveFlag_ADRDY(ADC1));
+}
+
+uint32_t MY_ADC_Read(void) {
+    // Start conversion
+    LL_ADC_REG_StartConversion(ADC1);
+
+    // Wait for conversion to complete
+    while (!LL_ADC_IsActiveFlag_EOC(ADC1));
+
+    // Read the conversion value
+    return LL_ADC_REG_ReadConversionData12(ADC1);
+}
+
+void MY_ADC_StartConversion(void) {
+    LL_ADC_REG_StartConversion(ADC1);
+}
+
+uint32_t MY_ADC_GetConversionValue(void) {
+    return LL_ADC_REG_ReadConversionData12(ADC1);
+}
+```
+
+### Timer Driver for ADC Scan
+
+#### `my_timer.h`
+
+```c
+#ifndef MY_TIMER_H
+#define MY_TIMER_H
+
+#include "stm32l4xx_ll_tim.h"
+#include "stm32l4xx_ll_bus.h"
+#include "stm32l4xx_ll_rcc.h"
+
+// Function prototypes
+void MY_TIMER_Init(uint32_t period_ms);
+
+#endif // MY_TIMER_H
+```
+
+#### `my_timer.c`
+
+```c
+#include "my_timer.h"
+
+void MY_TIMER_Init(uint32_t period_ms) {
+    // Enable the clock for TIM2
+    LL_APB1_GRP1_EnableClock(LL_APB1_GRP1_PERIPH_TIM2);
+
+    // Set the TIM2 prescaler to have the counter clocked at 1 MHz (assuming the system clock is 80 MHz)
+    LL_TIM_SetPrescaler(TIM2, __LL_TIM_CALC_PSC(SystemCoreClock, 1000000));
+
+    // Set the auto-reload value to have the counter overflow at the desired period
+    LL_TIM_SetAutoReload(TIM2, period_ms * 1000);
+
+    // Enable the update interrupt
+    LL_TIM_EnableIT_UPDATE(TIM2);
+
+    // Enable the counter
+    LL_TIM_EnableCounter(TIM2);
+
+    // Wait for the update event to make sure the timer is properly initialized
+    while(!LL_TIM_IsActiveFlag_UPDATE(TIM2));
+
+    // Clear the update flag
+    LL_TIM_ClearFlag_UPDATE(TIM2);
+}
+```
+
+### Main Program
+
+#### `main.c`
+
+```c
+#include "my_uart.h"
+#include "my_adc.h"
+#include "my_timer.h"
+#include "stm32l4xx_ll_utils.h"
+#include "stm32l4xx_ll_system.h"
+
+void SystemClock_Config(void);
+
+int main(void) {
+    // Configure the system clock
+    SystemClock_Config();
+
+    // Initialize UART
+    MY_UART_Init();
+
+    // Initialize ADC
+    MY_ADC_Init();
+
+    // Initialize Timer for 5ms period
+    MY_TIMER_Init(5);  // Change to 50 for 50ms period
+
+    while (1) {
+        // Check if the timer update flag is set
+        if (LL_TIM_IsActiveFlag_UPDATE(TIM2)) {
+            // Clear the update flag
+            LL_TIM_ClearFlag_UPDATE(TIM2);
+
+            // Start ADC conversion
+            MY_ADC_StartConversion();
+
+            // Wait for conversion to complete
+            while (!LL_ADC_IsActiveFlag_EOC(ADC1));
+
+            // Get the conversion value
+            uint32_t adc_value = MY_ADC_GetConversionValue();
+
+            // Transmit the ADC value
+            char buffer[50];
+            sprintf(buffer, "ADC Value: %lu\n", adc_value);
+            MY_UART_Transmit(buffer);
+        }
+    }
+}
+
+void SystemClock_Config(void) {
+    // Set FLASH latency
+    LL_FLASH_SetLatency(LL_FLASH_LATENCY_4);
+
+    // Enable HSI and wait for activation
+    LL_RCC_HSI_Enable();
+    while(LL_RCC_HSI_IsReady() != 1);
+
+    // Set HSI as SYSCLK source
+    LL_RCC_SetSysClkSource(LL_RCC_SYS_CLKSOURCE_HSI);
+    while(LL_RCC_GetSysClkSource() != LL_RCC_SYS_CLKSOURCE_STATUS_HSI);
+
+    // Set AHB and APB1, APB2 prescalers
+    LL_RCC_SetAHBPrescaler(LL_RCC_SYSCLK_DIV_1);
+    LL_RCC_SetAPB1Prescaler(LL_RCC_APB1_DIV_1);
+    LL_RCC_SetAPB2Prescaler(LL_RCC_APB2_DIV_1);
+
+    // Update SystemCoreClock variable
+    LL_SetSystemCoreClock(16000000);
+}
+```
+
+### Summary
+
+- **USART Driver:** Initializes and transmits data over UART.
+- **ADC Driver:** Configures the ADC and reads the conversion value.
+- **Timer Driver:** Initializes a timer to generate periodic interrupts.
+- **Main Program:** Configures the system clock, initializes peripherals, and periodically reads ADC values and transmits them over UART.
+
+Ensure that the system clock configuration matches your specific requirements. Adjust the timer period as needed for different ADC scan intervals (5 ms or 50 ms
